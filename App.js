@@ -1,21 +1,44 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { createAppContainer,createSwitchNavigator } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+import LoadingScreen from './src/screens/LoadingScreen'
+import LogInScreen from './src/screens/LogInScreen'
+import RegisterScreen from './src/screens/RegisterScreen'
+import HomeScreen from './src/screens/HomeScreen'
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+import firebase from 'firebase'
+
+
+var firebaseConfig = {
+  apiKey: "AIzaSyBxjhEaFulg5oKLwR7Wldf3kDvPw8Rolao",
+  authDomain: "newsofeveryone-b4734.firebaseapp.com",
+  projectId: "newsofeveryone-b4734",
+  storageBucket: "newsofeveryone-b4734.appspot.com",
+  messagingSenderId: "460211517105",
+  appId: "1:460211517105:web:4ca167beb393ad59435490"
+};
+// Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+
+const AppStack = createStackNavigator({
+  Home: HomeScreen
+})
+
+const AuthStack = createStackNavigator({
+  LogIn: LogInScreen,
+  Register:RegisterScreen
+})
+
+export default createAppContainer(
+  createSwitchNavigator(
+    {
+      Loading: LoadingScreen,
+      App: AppStack,
+      Auth: AuthStack
+
+    },
+    {
+        initialRouteName: "Loading"
+    }
+  )
+)
