@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
-import { Text, StyleSheet, View, TouchableOpacity, LayoutAnimation } from 'react-native'
+import { Text, StyleSheet, View, TouchableOpacity, LayoutAnimation, SafeAreaView} from 'react-native'
+import { AntDesign } from '@expo/vector-icons';
+import { Header,Left,Right,Icon } from "native-base";
+import {  } from "native-base";
 import  firebase from 'firebase'
 
 export default class LogInScreen extends Component {
@@ -16,13 +19,14 @@ export default class LogInScreen extends Component {
     }
 
     signOutUser = () => {
-        firebase.auth().signOut()
+        firebase.auth().signOut().then(() => this.props.navigation.navigate('LogIn'))
     }
 
     render() { 
          LayoutAnimation.easeInEaseOut()
         return (
             <View style = {styles.container}>
+
                 <Text> Hi {this.state.email} </Text>
 
                 <TouchableOpacity style ={{marginTop: 32}} onPress={this.signOutUser}>

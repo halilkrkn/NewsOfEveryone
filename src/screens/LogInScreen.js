@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, LayoutAnimation} from 'react-native'
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, LayoutAnimation, Button} from 'react-native'
 import { TextInput } from "react-native-gesture-handler";
 
 import  firebase from 'firebase'
@@ -17,6 +17,7 @@ export default class LogInScreen extends Component {
         firebase
         .auth()
         .signInWithEmailAndPassword(email,password)
+        .then(() => this.props.navigation.navigate('Home'))
         .catch(error => this.setState({errorMessage: error.message}))
     }
 
@@ -116,20 +117,8 @@ export default class LogInScreen extends Component {
                 Forgot Password?
               </Text>
 
-              <TouchableOpacity style={styles.submitContainer} onPress={this.handleLogin}>
-                <Text
-                  style={[
-                    styles.text,
-                    {
-                      color: "#FFF",
-                      fontWeight: "600",
-                      fontSize: 16,
-                    },
-                  ]}
-                >
-                  Login
-                </Text>
-              </TouchableOpacity>
+              <Button style={styles.submitContainer} title="Log In" onPress={this.handleLogin}>
+              </Button>
 
               <TouchableOpacity
                 style={{ alignSelf: "center", marginTop: 32 }}

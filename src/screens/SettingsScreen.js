@@ -1,12 +1,13 @@
+
 import React, {Component} from 'react';
 import { StyleSheet, Text, View } from 'react-native'
 
-export default class MessageScreen extends React.Component {
+export default class SettingsScreen extends React.Component {
     
     render() {
         return (
         <View style = {styles.container}>
-            <Text> Message Screen</Text>
+            <Text> Settings Screen</Text>
         </View>
     )
     }       
