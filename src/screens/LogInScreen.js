@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView, LayoutAnimation} from 'react-native'
 import { TextInput } from "react-native-gesture-handler";
+
 import  firebase from 'firebase'
 export default class LogInScreen extends Component {
 
@@ -20,6 +21,7 @@ export default class LogInScreen extends Component {
     }
 
     render() { 
+         LayoutAnimation.easeInEaseOut()
         return (
           <ScrollView style={styles.container}>
             <View>
@@ -230,5 +232,6 @@ const styles = StyleSheet.create({
         shadowOpacity: 1,
         shadowRadius: 20,
         elevation: 5
-    }
+    },
+
 });
