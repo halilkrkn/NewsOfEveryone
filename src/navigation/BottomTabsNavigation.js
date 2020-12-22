@@ -20,7 +20,7 @@ const screenOptionStyle = {
 const BottomTabNavigator = () => {
   return (
     <Tab.Navigator screenOptions={screenOptionStyle} >
-      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Home" component={HomeScreen}/>
       <Tab.Screen name="Post" component={PostScreen} />
       <Tab.Screen name="Notification" component={NotificationScreen}/>
     </Tab.Navigator>
