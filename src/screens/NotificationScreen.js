@@ -1,15 +1,17 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, Button, SafeAreaView } from 'react-native'
 
-export default class NotificationScreen extends React.Component {
+export default ({navigation}) => {
     
-    render() {
+    
         return (
-        <View style = {styles.container}>
-            <Text> Notifiacation Screen</Text>
-        </View>
-    )
-    }       
+          <View style={styles.container}>
+            <SafeAreaView onPress={() => navigation.toggleDrawer()}/>
+           <Text>Notification Screen</Text>
+
+          </View>
+        );
+        
 }
 
 const styles = StyleSheet.create({

@@ -1,15 +1,21 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import LogInScreen from "../screens/LogInScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import HomeScreen from '../screens/HomeScreen'
 import PostScreen from '../screens/PostScreen'
+import SettingsScreen from '../screens/SettingsScreen'
+import LogOutScreen from '../screens/LogOutScreen'
+
+
 import NotificationScreen from '../screens/NotificationScreen'
 import { Ionicons  } from "@expo/vector-icons";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+const Drawer = createDrawerNavigator();
 
 
 function Home() {
@@ -60,13 +66,31 @@ const screenOptionStyle = {
 
 const AuthStackNavigator = () => {
   return (
-    <Stack.Navigator screenOptions={screenOptionStyle} headerMode= "none">
-      <Stack.Screen name="LogIn" component={LogInScreen}/> 
-      <Stack.Screen name="Register" component={RegisterScreen}/>
-      <Stack.Screen name="Home" component={Home}/>
+    <Stack.Navigator screenOptions={screenOptionStyle} headerMode="none">
+      <Stack.Screen name="LogIn" component={LogInScreen} />
+      <Stack.Screen name="Register" component={RegisterScreen} />
+      <Stack.Screen name="Home" component={HomeNavigator} />
     </Stack.Navigator>
   );
 }
+
+const HomeNavigator = () => {
+  return(
+    <Stack.Navigator screenOptions={screenOptionStyle} headerMode="none">
+      <Stack.Screen name="Home" component ={Home}/>
+    </Stack.Navigator>
+  )
+}
+
+const AppDrawerScreen = () => (
+  <Drawer.Navigator>
+    <Drawer.Screen name="Tabs" component={AuthStackNavigator} />
+    <Drawer.Screen name="Settings" component={SettingsScreen} />
+    <Drawer.Screen name="LogOut" component={LogOutScreen} />
+
+  </Drawer.Navigator>
+);
+
 
 /*
 const AppStackNavigator = () => {
@@ -81,4 +105,4 @@ const AppStackNavigator = () => {
   }
   */
 
-export { AuthStackNavigator};
+export { AppDrawerScreen};

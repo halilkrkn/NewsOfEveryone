@@ -5,7 +5,7 @@ import { Header,Left,Right,Icon } from "native-base";
 import {  } from "native-base";
 import  firebase from 'firebase'
 
-export default class HomeScreen extends Component {
+export default class LogOutScreen extends Component {
 
     state = {
         email: "",

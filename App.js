@@ -17,7 +17,7 @@ import NotificationScreen from './src/screens/NotificationScreen'
 
 import React,{Component} from 'react';
 import { NavigationContainer } from "@react-navigation/native";
-import { AuthStackNavigator} from "./src/navigation/StackNavigation";
+import { AppDrawerScreen} from "./src/navigation/StackNavigation";
 import { BottomTabNavigator } from "./src/navigation/BottomTabsNavigation";
 import {DrawerNavigation } from "./src/navigation/DrawerNavigation";
 
@@ -48,7 +48,7 @@ var firebaseConfig = {
  const App = () => {
   return (
     <NavigationContainer>
-      <AuthStackNavigator/>
+      <AppDrawerScreen/>
     </NavigationContainer>
   );
 }

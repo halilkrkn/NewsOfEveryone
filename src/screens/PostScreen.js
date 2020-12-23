@@ -1,13 +1,14 @@
 
 import React, {Component} from 'react';
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView } from 'react-native'
 
 export default class PostScreen extends React.Component {
     
     render() {
         return (
         <View style = {styles.container}>
-            <Text> Post Screen</Text>
+        <SafeAreaView onPress={() => this.props.navigation.toggleDrawer()}/>   
+        <Text> Post Screen</Text>
         </View>
     )
     }       
