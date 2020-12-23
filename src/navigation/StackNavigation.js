@@ -66,7 +66,7 @@ const screenOptionStyle = {
 
 const AuthStackNavigator = () => {
   return (
-    <Stack.Navigator screenOptions={screenOptionStyle} headerMode="none">
+    <Stack.Navigator screenOptions={screenOptionStyle} headerMode="screen">
       <Stack.Screen name="LogIn" component={LogInScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
       <Stack.Screen name="Home" component={HomeNavigator} />
@@ -86,7 +86,7 @@ const AppDrawerScreen = () => (
   <Drawer.Navigator>
     <Drawer.Screen name="Tabs" component={AuthStackNavigator} />
     <Drawer.Screen name="Settings" component={SettingsScreen} />
-    <Drawer.Screen name="LogOut" component={LogOutScreen} />
+    <Drawer.Screen name="LogOut" component={LogOutScreen}/>
 
   </Drawer.Navigator>
 );

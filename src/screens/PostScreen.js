@@ -6,8 +6,7 @@ export default class PostScreen extends React.Component {
     
     render() {
         return (
-        <View style = {styles.container}>
-        <SafeAreaView onPress={() => this.props.navigation.toggleDrawer()}/>   
+        <View style = {styles.container}>  
         <Text> Post Screen</Text>
         </View>
     )

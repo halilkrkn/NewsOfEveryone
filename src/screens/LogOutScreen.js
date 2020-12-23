@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { Text, StyleSheet, View, TouchableOpacity, LayoutAnimation, SafeAreaView} from 'react-native'
+import { Text, StyleSheet, View, TouchableOpacity, LayoutAnimation, SafeAreaView, Button} from 'react-native'
 import { AntDesign } from '@expo/vector-icons';
-import { Header,Left,Right,Icon } from "native-base";
+
 import {  } from "native-base";
 import  firebase from 'firebase'
 
@@ -27,11 +27,10 @@ export default class LogOutScreen extends Component {
         return (
             <View style = {styles.container}>
                  <SafeAreaView onPress={() => this.props.navigation.toggleDrawer()}/>   
-                <Text> Hi {this.state.email} </Text>
-
-                <TouchableOpacity style ={{marginTop: 32}} onPress={this.signOutUser}>
-                    <Text>Log Out</Text>
-                </TouchableOpacity>
+                <Text> Good Bye </Text>
+                <Text>{this.state.email} </Text>
+                <Button style={styles.submitContainer} title="Log Out" onPress={this.signOutUser}>
+              </Button>
             </View>
         )
     }
@@ -44,5 +43,20 @@ const styles = StyleSheet.create({
         justifyContent:"center",
         alignItems:"center"
 
-    }
+    },
+    submitContainer: {
+        backgroundColor: "#FF1654",
+        fontSize: 16,
+        borderRadius: 4,
+        paddingVertical: 12,
+        marginTop: 32,
+        alignItems: "center",
+        justifyContent: "center",
+        color: "#FFF",
+        shadowColor: "rgba(255, 22, 84, 0.24)",
+        shadowOffset: { width: 0, height: 9 },
+        shadowOpacity: 1,
+        shadowRadius: 20,
+        elevation: 5
+    },
 })

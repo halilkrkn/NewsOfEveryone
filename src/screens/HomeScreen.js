@@ -26,7 +26,7 @@ export default class HomeScreen extends Component {
          LayoutAnimation.easeInEaseOut()
         return (
             <View style = {styles.container}>
-                 <SafeAreaView onPress={() => this.props.navigation.toggleDrawer()}/>   
+   
                 <Text> Hi {this.state.email} </Text>
 
                 <TouchableOpacity style ={{marginTop: 32}} onPress={this.signOutUser}>

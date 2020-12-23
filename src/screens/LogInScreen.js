@@ -117,7 +117,8 @@ export default class LogInScreen extends Component {
                 Forgot Password?
               </Text>
 
-              <Button style={styles.submitContainer} title="Log In" onPress={this.handleLogin}>
+
+              <Button  color="red" title="Log In" onPress={this.handleLogin}>
               </Button>
 
               <TouchableOpacity
@@ -145,6 +146,13 @@ const styles = StyleSheet.create({
        
         color: "#1D2029"
     },
+
+    buttonStyle: {
+      color: 'red',
+      marginTop: 20,
+      padding: 20,
+      backgroundColor: 'green'
+  },
 
     errorMessage: {
 
@@ -205,12 +213,13 @@ const styles = StyleSheet.create({
         color: "#FF1654",
         fontSize: 15,
         fontWeight: "500",
-        fontStyle:"italic"
+        fontStyle:"italic",
+        marginBottom:16
     },
     submitContainer: {
         backgroundColor: "#FF1654",
         fontSize: 16,
-        borderRadius: 4,
+        borderRadius: 10,
         paddingVertical: 12,
         marginTop: 32,
         alignItems: "center",

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, Image, TouchableOpacity, ScrollView ,Button} from 'react-native'
 import { TextInput } from "react-native-gesture-handler";
 import {Ionicons} from '@expo/vector-icons'
 import  firebase from 'firebase'
@@ -22,6 +22,7 @@ export default class RegisterScreen extends Component {
                 displayName: this.state.name
             })
         })
+        .then(() => this.props.navigation.navigate('LogIn'))
         .catch(error => this.setState({errorMessage: error.message}))
     }
 
@@ -77,7 +78,7 @@ export default class RegisterScreen extends Component {
                   ></TextInput>
                 </View>
 
-                <View style={{ marginTop: 32}}>
+                <View style={{ marginTop: 32, marginBottom:28}}>
                   <Text style={styles.inputTitle}>Password</Text>
                   <TextInput
                     style={styles.input}
@@ -89,20 +90,8 @@ export default class RegisterScreen extends Component {
                 </View>
               </View>
 
-              <TouchableOpacity style={styles.submitContainer} onPress={this.handleSignUp}>
-                <Text
-                  style={[
-                    styles.text,
-                    {
-                      color: "#FFF",
-                      fontWeight: "600",
-                      fontSize: 16,
-                    },
-                  ]}
-                >
-                  Sign Up
-                </Text>
-              </TouchableOpacity>
+              <Button  color="red" title="Sign Up" onPress={this.handleSignUp}>
+              </Button>
 
               <TouchableOpacity
                 style={{ alignSelf: "center", marginTop: 32 }}
