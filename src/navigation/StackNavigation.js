@@ -66,7 +66,7 @@ const screenOptionStyle = {
 
 const AuthStackNavigator = () => {
   return (
-    <Stack.Navigator screenOptions={screenOptionStyle} headerMode="screen">
+    <Stack.Navigator screenOptions={screenOptionStyle} headerMode="none">
       <Stack.Screen name="LogIn" component={LogInScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
       <Stack.Screen name="Home" component={HomeNavigator} />

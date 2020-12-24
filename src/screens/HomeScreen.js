@@ -9,13 +9,15 @@ export default class HomeScreen extends Component {
 
     state = {
         email: "",
-        displayName:""
+        displayName:"",
+        id:""
     }
 
     componentDidMount() {
         const{email, displayName} = firebase.auth().currentUser
+        id = firebase.auth().currentUser.uid
 
-        this.setState({email,displayName})
+        this.setState({email,displayName, id})
     }
 
     signOutUser = () => {
@@ -27,7 +29,7 @@ export default class HomeScreen extends Component {
         return (
             <View style = {styles.container}>
    
-                <Text> Hi {this.state.email} </Text>
+                <Text> Hi {this.state.id} </Text>
 
                 <TouchableOpacity style ={{marginTop: 32}} onPress={this.signOutUser}>
                     <Text>Log Out</Text>
