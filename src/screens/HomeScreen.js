@@ -13,7 +13,7 @@ export default class HomeScreen extends Component {
         id:""
     }
 
-    componentDidMount() {
+  async componentDidMount() {
         const{email, displayName} = firebase.auth().currentUser
         id = firebase.auth().currentUser.uid
 
@@ -23,6 +23,7 @@ export default class HomeScreen extends Component {
     signOutUser = () => {
         firebase.auth().signOut().then(() => this.props.navigation.navigate('LogIn'))
     }
+
 
     render() { 
          LayoutAnimation.easeInEaseOut()

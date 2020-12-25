@@ -1,70 +1,125 @@
-import React, { Component, useEffect } from 'react'
-import { Text, StyleSheet, View, TouchableOpacity, LayoutAnimation, SafeAreaView} from 'react-native'
-import { AntDesign } from '@expo/vector-icons';
-import  firebase from 'firebase'
-import Notifications from "expo-notifications"
-import Permissions from "expo-permissions"
+import Constants from 'expo-constants';
+import * as Notifications from 'expo-notifications';
+import * as Permissions from 'expo-permissions';
+import React, { useState, useEffect, useRef } from 'react';
+import { Text, View, Button, Platform } from 'react-native';
 
-export default class NotificationScreen extends Component {
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
 
+export default function App() {
+  const [expoPushToken, setExpoPushToken] = useState('');
+  const [notification, setNotification] = useState(false);
+  const notificationListener = useRef();
+  const responseListener = useRef();
 
-  registerForPushNotifications = async () =>{
-    //Get the current users id So you can post the token to the user in your database
-    const  currentUser = firebase.auth().currentUser.uid
-    const { status: existingStatus } = await Permissions.getAsync(
-    Permissions.NOTIFICATIONS
-    );
-    let finalStatus = existingStatus;
-    // only ask if permissions have not already been determined, because
-    // iOS won't necessarily prompt the user a second time.
-    if (existingStatus !== 'granted') {
-    // Android remote notification permissions are granted during the app
-    // install, so this will only ask on iOS
-    const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-    finalStatus = status;
-    }
-    // Stop here if the user did not grant permissions
-    if (finalStatus !== 'granted') {
-    return;
-    }
-    // Get the token that uniquely identifies this device
-    try{
-    let token = await Notifications.getExpoPushTokenAsync();
-    // POST the token to your backend server from where you can retrieve it to send push notifications.
-    var updates = {}
-    updates['/expoToken'] = token
-      await firebase
-      .firestore()
-      .collection("users")
-      .doc(currentUser)
-      .update(updates)
-    
-  
-  }
-    catch(error){
-    console.log(error)
-    }
-    }
+  useEffect(() => {
+    registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
 
-  
-    render() { 
+    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+      setNotification(notification);
+    });
 
-        return (
-            <View style = {styles.container}>
-                <Text> Hi {} </Text>
-            </View>
-        )
-    }
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+      console.log(response);
+    });
+
+    return () => {
+      Notifications.removeNotificationSubscription(notificationListener);
+      Notifications.removeNotificationSubscription(responseListener);
+    };
+  }, []);
+
+  return (
+    <View
+      style={{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'space-around',
+      }}>
+      <Text>Your expo push token: {expoPushToken}</Text>
+      <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+        <Text>Title: {notification && notification.request.content.title} </Text>
+        <Text>Body: {notification && notification.request.content.body}</Text>
+        <Text>Data: {notification && JSON.stringify(notification.request.content.data)}</Text>
+      </View>
+      <Button
+        title="Press to schedule a notification"
+        onPress={async () => {
+          await schedulePushNotification();
+        }}
+      />
+    </View>
+  );
 }
 
-const styles = StyleSheet.create({ 
-    container: {
+async function schedulePushNotification() {
+  await Notifications.scheduleNotificationAsync({
+    content: {
+      title: "You've got mail! 📬",
+      body: 'Here is the notification body',
+      data: { data: 'goes here' },
+    },
+    trigger: { seconds: 2 },
+  });
+}
 
-        flex:1,
-        justifyContent:"center",
-        alignItems:"center"
-
+async function registerForPushNotificationsAsync() {
+  let token;
+  if (Constants.isDevice) {
+    const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      finalStatus = status;
     }
-})
+    if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!');
+      return;
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+    console.log(token);
+  } else {
+    alert('Must use physical device for Push Notifications');
+  }
 
+  if (Platform.OS === 'android') {
+    Notifications.setNotificationChannelAsync('default', {
+      name: 'default',
+      importance: Notifications.AndroidImportance.MAX,
+      vibrationPattern: [0, 250, 250, 250],
+      lightColor: '#FF231F7C',
+    });
+  }
 
+  return token;
+}
+
+/*
+componentDidMount(){
+  this.registerForPushNotificationsAsync()
+}
+  
+ registerForPushNotificationsAsync = async() => {
+    const {status} = await Permissions.getAsync(Permissions.NOTIFICATIONS)
+    let finalState = status
+
+    if (status !== 'granted') {
+      const {status} = await Permissions.askAsync(Permissions.NOTIFICATIONS)
+      finalState = status
+    }
+
+    if (finalState !== 'granted') {
+      return;
+    }
+
+    let token = await Notifications.getExpoPushTokenAsync()
+    console.log(token)
+
+  }
+  */
