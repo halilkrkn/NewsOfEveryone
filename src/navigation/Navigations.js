@@ -6,7 +6,6 @@ import LogInScreen from "../screens/LogInScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import HomeScreen from '../screens/HomeScreen'
 import PostScreen from '../screens/PostScreen'
-import SettingsScreen from '../screens/SettingsScreen'
 import LogOutScreen from '../screens/LogOutScreen'
 
 
@@ -67,7 +66,7 @@ const screenOptionStyle = {
 const AuthStackNavigator = () => {
   return (
     <Stack.Navigator screenOptions={screenOptionStyle} headerMode="none">
-      <Stack.Screen name="LogIn" component={LogInScreen} />
+      <Stack.Screen name="LogIn" component={LogInScreen}/>
       <Stack.Screen name="Register" component={RegisterScreen} />
       <Stack.Screen name="Home" component={HomeNavigator} />
     </Stack.Navigator>
@@ -76,7 +75,7 @@ const AuthStackNavigator = () => {
 
 const HomeNavigator = () => {
   return(
-    <Stack.Navigator screenOptions={screenOptionStyle} headerMode="none">
+    <Stack.Navigator screenOptions={screenOptionStyle}>
       <Stack.Screen name="Home" component ={Home}/>
     </Stack.Navigator>
   )
@@ -85,24 +84,10 @@ const HomeNavigator = () => {
 const AppDrawerScreen = () => (
   <Drawer.Navigator>
     <Drawer.Screen name="Tabs" component={AuthStackNavigator} />
-    <Drawer.Screen name="Settings" component={SettingsScreen} />
     <Drawer.Screen name="LogOut" component={LogOutScreen}/>
 
   </Drawer.Navigator>
 );
 
-
-/*
-const AppStackNavigator = () => {
-    return (
-      <Stack.Navigator screenOptions={screenOptionStyle}>
-        <Stack.Screen name="Home" component={HomeScreen}/>
-        <Stack.Screen name="Post" component={PostScreen}/>
-        <Stack.Screen name="Notification" component={NotificationScreen}/>
-
-      </Stack.Navigator>
-    );
-  }
-  */
 
 export { AppDrawerScreen};

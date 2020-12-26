@@ -1,51 +1,57 @@
-import React, { Component } from 'react'
-import { Text, StyleSheet, View, TouchableOpacity, LayoutAnimation, SafeAreaView} from 'react-native'
-import { AntDesign } from '@expo/vector-icons';
-import { Header,Left,Right,Icon } from "native-base";
-import {  } from "native-base";
-import  firebase from 'firebase'
+import React, {useState, useEffect} from 'react'
+import { StyleSheet, Text, View, FlatList} from 'react-native'
+import NewsCard from '../components/NewsCards'
+import newsApi from '../api/News'
 
-export default class HomeScreen extends Component {
-
-    state = {
-        email: "",
-        displayName:"",
-        id:""
-    }
-
-  async componentDidMount() {
-        const{email, displayName} = firebase.auth().currentUser
-        id = firebase.auth().currentUser.uid
-
-        this.setState({email,displayName, id})
-    }
-
-    signOutUser = () => {
-        firebase.auth().signOut().then(() => this.props.navigation.navigate('LogIn'))
-    }
+const HomeScreen = ({navigation}) => {
 
 
-    render() { 
-         LayoutAnimation.easeInEaseOut()
-        return (
-            <View style = {styles.container}>
-   
-                <Text> Hi {this.state.id} </Text>
+    const [news, setNews] = useState([]);
 
-                <TouchableOpacity style ={{marginTop: 32}} onPress={this.signOutUser}>
-                    <Text>Log Out</Text>
-                </TouchableOpacity>
-            </View>
-        )
-    }
+    useEffect(() => {
+      getNewsFromAPI()
+    },[])
+
+  function getNewsFromAPI() {
+    newsApi.get('top-headlines?country=tr&category=science&apiKey=bbc189fcd1ab4a78ae8e75256349d7aa')
+    .then(async function (response) {
+      setNews(response.data)
+            
+    })
+    .catch(function (error) {
+      console.log(error)
+      
+    })
+  }
+
+  if (!news) {
+      return null
+  }
+  
+
+
+  return (   
+    <View style={styles.container}>
+     <FlatList
+      data = {news.articles}
+      keyExtractor = {(item , index) => 'key' + index}
+      renderItem = {({item}) => {
+
+        return(<NewsCard item = {item}/>)
+
+      }}/>
+
+    </View>
+  )
 }
 
-const styles = StyleSheet.create({ 
-    container: {
+export default HomeScreen
 
-        flex:1,
-        justifyContent:"center",
-        alignItems:"center"
-
-    }
+const styles = StyleSheet.create({
+  
+  container: {
+    flex:1,
+    alignItems:'center',
+    justifyContent:'center'
+}
 })
