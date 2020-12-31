@@ -19,7 +19,7 @@ export default function App() {
   const responseListener = useRef();
 
   const [datas, setData] = useState([]);
-  console.log(datas.articles);
+  console.log(datas);
 
   useEffect(() => {
     registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
@@ -42,7 +42,7 @@ export default function App() {
 
 
   function getNotification() {
-        fetch('http://newsapi.org/v2/top-headlines?country=tr&apiKey=bbc189fcd1ab4a78ae8e75256349d7aa')
+        fetch('https://raw.githubusercontent.com/adhithiravi/React-Hooks-Examples/master/testAPI.json')
       .then((response) => response.json())
       .then((json) => setData(json))
       .catch((error) => console.error(error))
@@ -74,8 +74,8 @@ export default function App() {
 async function schedulePushNotification(datas) {
   await Notifications.scheduleNotificationAsync({
     content: {
-      title: datas.title,
-      body: datas.description,
+      title: datas.author,
+      body: datas.title,
     },
     trigger: { seconds: 2 },
   });
@@ -83,6 +83,23 @@ async function schedulePushNotification(datas) {
 
 async function registerForPushNotificationsAsync() {
   let token;
+  if (Constants.isDevice) {
+    const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+    let finalStatus = existingStatus;
+    if (existingStatus !== 'granted') {
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      finalStatus = status;
+    }
+    if (finalStatus !== 'granted') {
+      alert('Failed to get push token for push notification!');
+      return;
+    }
+    token = (await Notifications.getExpoPushTokenAsync()).data;
+    console.log(token);
+  } else {
+    alert('Must use physical device for Push Notifications');
+  }
+
   if (Platform.OS === 'android') {
     Notifications.setNotificationChannelAsync('default', {
       name: 'default',
