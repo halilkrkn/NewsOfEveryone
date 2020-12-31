@@ -56,13 +56,9 @@ export default function App() {
         alignItems: 'center',
         justifyContent: 'space-around',
       }}>
-      <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-        
-        <Text>Title: {notification && datas.title} </Text>
-        <Text>Body: {notification && datas.description}</Text>
-      </View>
+
       <Button
-        title="Press to schedule a notification"
+        title="Api'dan Notification Al"
         onPress={async () => {
           await schedulePushNotification(datas);
         }}
@@ -83,23 +79,6 @@ async function schedulePushNotification(datas) {
 
 async function registerForPushNotificationsAsync() {
   let token;
-  if (Constants.isDevice) {
-    const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-    let finalStatus = existingStatus;
-    if (existingStatus !== 'granted') {
-      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-      finalStatus = status;
-    }
-    if (finalStatus !== 'granted') {
-      alert('Failed to get push token for push notification!');
-      return;
-    }
-    token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log(token);
-  } else {
-    alert('Must use physical device for Push Notifications');
-  }
-
   if (Platform.OS === 'android') {
     Notifications.setNotificationChannelAsync('default', {
       name: 'default',
@@ -111,27 +90,3 @@ async function registerForPushNotificationsAsync() {
 
   return token;
 }
-
-/*
-componentDidMount(){
-  this.registerForPushNotificationsAsync()
-}
-  
- registerForPushNotificationsAsync = async() => {
-    const {status} = await Permissions.getAsync(Permissions.NOTIFICATIONS)
-    let finalState = status
-
-    if (status !== 'granted') {
-      const {status} = await Permissions.askAsync(Permissions.NOTIFICATIONS)
-      finalState = status
-    }
-
-    if (finalState !== 'granted') {
-      return;
-    }
-
-    let token = await Notifications.getExpoPushTokenAsync()
-    console.log(token)
-
-  }
-  */

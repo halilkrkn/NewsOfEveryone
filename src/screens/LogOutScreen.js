@@ -27,8 +27,8 @@ export default class LogOutScreen extends Component {
         return (
             <View style = {styles.container}>
                  <SafeAreaView onPress={() => this.props.navigation.toggleDrawer()}/>   
-                <Text> Good Bye </Text>
-                <Text>{this.state.email} </Text>
+                <Text style={styles.goodBye}> Good Bye </Text>
+                <Text style={styles.goodBye}>{this.state.email} </Text>
                 <Button style={styles.submitContainer} title="Log Out" onPress={this.signOutUser}>
               </Button>
             </View>
@@ -59,4 +59,10 @@ const styles = StyleSheet.create({
         shadowRadius: 20,
         elevation: 5
     },
+    goodBye: {
+        marginBottom:12,
+        fontStyle:'italic',
+        fontSize:26,
+        
+    }
 })
