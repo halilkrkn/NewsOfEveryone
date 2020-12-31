@@ -18,6 +18,9 @@ export default function App() {
   const notificationListener = useRef();
   const responseListener = useRef();
 
+  const [datas, setData] = useState([]);
+  console.log(datas.articles);
+
   useEffect(() => {
     registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
 
@@ -29,11 +32,22 @@ export default function App() {
       console.log(response);
     });
 
+    getNotification()
+
     return () => {
       Notifications.removeNotificationSubscription(notificationListener);
       Notifications.removeNotificationSubscription(responseListener);
     };
   }, []);
+
+
+  function getNotification() {
+        fetch('http://newsapi.org/v2/top-headlines?country=tr&apiKey=bbc189fcd1ab4a78ae8e75256349d7aa')
+      .then((response) => response.json())
+      .then((json) => setData(json))
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
+  }
 
   return (
     <View
@@ -43,26 +57,25 @@ export default function App() {
         justifyContent: 'space-around',
       }}>
       <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Title: {notification && notification.request.content.title} </Text>
-        <Text>Body: {notification && notification.request.content.body}</Text>
-        <Text>Data: {notification && JSON.stringify(notification.request.content.data)}</Text>
+        
+        <Text>Title: {notification && datas.title} </Text>
+        <Text>Body: {notification && datas.description}</Text>
       </View>
       <Button
         title="Press to schedule a notification"
         onPress={async () => {
-          await schedulePushNotification();
+          await schedulePushNotification(datas);
         }}
       />
     </View>
   );
 }
 
-async function schedulePushNotification() {
+async function schedulePushNotification(datas) {
   await Notifications.scheduleNotificationAsync({
     content: {
-      title: "You've got mail! 📬",
-      body: 'Here is the notification body',
-      data: { data: 'goes here' },
+      title: datas.title,
+      body: datas.description,
     },
     trigger: { seconds: 2 },
   });
@@ -70,23 +83,6 @@ async function schedulePushNotification() {
 
 async function registerForPushNotificationsAsync() {
   let token;
-  if (Constants.isDevice) {
-    const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-    let finalStatus = existingStatus;
-    if (existingStatus !== 'granted') {
-      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-      finalStatus = status;
-    }
-    if (finalStatus !== 'granted') {
-      alert('Failed to get push token for push notification!');
-      return;
-    }
-    token = (await Notifications.getExpoPushTokenAsync()).data;
-    console.log(token);
-  } else {
-    alert('Must use physical device for Push Notifications');
-  }
-
   if (Platform.OS === 'android') {
     Notifications.setNotificationChannelAsync('default', {
       name: 'default',

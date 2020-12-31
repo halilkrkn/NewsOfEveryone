@@ -5,7 +5,6 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import LogInScreen from "../screens/LogInScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import HomeScreen from '../screens/HomeScreen'
-import PostScreen from '../screens/PostScreen'
 import LogOutScreen from '../screens/LogOutScreen'
 
 
@@ -30,15 +29,6 @@ function Home() {
         options={{
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="ios-home" color={color} size={30} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Post"
-        component={PostScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="ios-settings" size={30} color={color} />
           ),
         }}
       />
@@ -75,7 +65,7 @@ const AuthStackNavigator = () => {
 
 const HomeNavigator = () => {
   return(
-    <Stack.Navigator screenOptions={screenOptionStyle}>
+    <Stack.Navigator screenOptions={screenOptionStyle} headerMode ="none">
       <Stack.Screen name="Home" component ={Home}/>
     </Stack.Navigator>
   )
