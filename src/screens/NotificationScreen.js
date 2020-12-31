@@ -42,7 +42,7 @@ export default function App() {
 
 
   function getNotification() {
-        fetch('https://raw.githubusercontent.com/adhithiravi/React-Hooks-Examples/master/testAPI.json')
+        fetch('https://raw.githubusercontent.com/halilkrkn/NewsOfEveryone/master/src/api/NewsApi.json')
       .then((response) => response.json())
       .then((json) => setData(json))
       .catch((error) => console.error(error))
